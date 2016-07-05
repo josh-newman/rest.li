@@ -17,6 +17,7 @@
 package com.linkedin.pegasus.generator.spec;
 
 
+import com.linkedin.data.schema.NamedDataSchema;
 import com.linkedin.data.schema.RecordDataSchema;
 
 import java.util.ArrayList;
@@ -29,11 +30,13 @@ import java.util.List;
 public class RecordTemplateSpec extends ClassTemplateSpec
 {
   private List<Field> _fields;
+  private List<Include> _includes;
 
   public RecordTemplateSpec(RecordDataSchema schema)
   {
     setSchema(schema);
     _fields = new ArrayList<Field>();
+    _includes = new ArrayList<Include>();
   }
 
   @Override
@@ -50,6 +53,16 @@ public class RecordTemplateSpec extends ClassTemplateSpec
   public void addField(Field field)
   {
     _fields.add(field);
+  }
+
+  public List<Include> getIncludes()
+  {
+    return _includes;
+  }
+
+  public void addInclude(Include include)
+  {
+    _includes.add(include);
   }
 
   public static class Field
@@ -97,6 +110,43 @@ public class RecordTemplateSpec extends ClassTemplateSpec
     public void setCustomInfo(CustomInfoSpec customInfo)
     {
       _customInfo = customInfo;
+    }
+  }
+
+  public static class Include
+  {
+    private NamedDataSchema _schema;
+    private ClassTemplateSpec _type;
+    private ClassTemplateSpec _dataClass;
+
+    public NamedDataSchema getSchema()
+    {
+      return _schema;
+    }
+
+    public void setSchema(NamedDataSchema schema)
+    {
+      _schema = schema;
+    }
+
+    public ClassTemplateSpec getType()
+    {
+      return _type;
+    }
+
+    public void setType(ClassTemplateSpec type)
+    {
+      _type = type;
+    }
+
+    public ClassTemplateSpec getDataClass()
+    {
+      return _dataClass;
+    }
+
+    public void setDataClass(ClassTemplateSpec dataClass)
+    {
+      _dataClass = dataClass;
     }
   }
 }

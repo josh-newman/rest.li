@@ -751,7 +751,13 @@ public class TemplateSpecGenerator
     final List<NamedDataSchema> includes = schema.getInclude();
     for (NamedDataSchema includedSchema : includes)
     {
-      processSchema(includedSchema, null, null);
+      final ClassTemplateSpec includeClass = processSchema(includedSchema, null, null);
+      final RecordTemplateSpec.Include newInclude = new RecordTemplateSpec.Include();
+      newInclude.setSchema(includedSchema);
+      newInclude.setType(includeClass);
+      newInclude.setDataClass(determineDataClass(includedSchema, recordClass, includeClass.getClassName()));
+
+      recordClass.addInclude(newInclude);
     }
 
     final Map<CustomInfoSpec, Object> customInfoMap = new IdentityHashMap<CustomInfoSpec, Object>(schema.getFields().size() * 2);
